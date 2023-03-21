@@ -8,7 +8,7 @@
 #   name     = random_pet.rg_name.id
 # }
 
-data "azurerm_resource_group" "example" {
+data "azurerm_resource_group" "rg" {
   name = var.resource_group_name
 }
 
