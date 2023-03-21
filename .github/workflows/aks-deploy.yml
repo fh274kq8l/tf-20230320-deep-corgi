@@ -120,78 +120,78 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve -var "resource_group_name=${{secrets.AZURE_RESOURCE_GROUP_NAME}}"
 
-  deploy-to-test:
-    if: github.event_name != 'pull_request'
-    needs: deploy-to-dev
-    defaults:
-      run:
-        working-directory: terraform-aks-deploy
+  # deploy-to-test:
+  #   if: github.event_name != 'pull_request'
+  #   needs: deploy-to-dev
+  #   defaults:
+  #     run:
+  #       working-directory: terraform-aks-deploy
       
-    name: Deploy to Test
-    environment: test
-    runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
-      ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-      ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  #   name: Deploy to Test
+  #   environment: test
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+  #     ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  #     ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2.5.0
+  #   steps:
+  #   - name: Checkout Code
+  #     uses: actions/checkout@v2.5.0
 
-    - name: HashiCorp - Setup Terraform
-      uses: hashicorp/setup-terraform@v2.0.3
+  #   - name: HashiCorp - Setup Terraform
+  #     uses: hashicorp/setup-terraform@v2.0.3
 
-    - name: Terraform Init
-      run: |
-        terraform init \
-        -backend-config="resource_group_name=${{secrets.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
-        -backend-config="storage_account_name=${{secrets.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
-        -backend-config="container_name=${{secrets.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}"
+  #   - name: Terraform Init
+  #     run: |
+  #       terraform init \
+  #       -backend-config="resource_group_name=${{secrets.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
+  #       -backend-config="storage_account_name=${{secrets.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
+  #       -backend-config="container_name=${{secrets.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}"
       
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -var "resource_group_name=${{secrets.AZURE_RESOURCE_GROUP_NAME}}"
+  #   - name: Terraform Apply
+  #     run: terraform apply -auto-approve -var "resource_group_name=${{secrets.AZURE_RESOURCE_GROUP_NAME}}"
 
-  deploy-to-prod:
-    if: github.event_name != 'pull_request'
-    needs: deploy-to-test
-    defaults:
-      run:
-        working-directory: terraform-aks-deploy
+  # deploy-to-prod:
+  #   if: github.event_name != 'pull_request'
+  #   needs: deploy-to-test
+  #   defaults:
+  #     run:
+  #       working-directory: terraform-aks-deploy
       
-    name: Deploy to Prod
-    environment: prod
-    runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
-      ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-      ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  #   name: Deploy to Prod
+  #   environment: prod
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
+  #     ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  #     ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2.5.0
+  #   steps:
+  #   - name: Checkout Code
+  #     uses: actions/checkout@v2.5.0
 
-    # NOTE This is an example of how to login to the Azure CLI, this step is not needed for Terraform
-    #- name: 'Az CLI login'
-    #  uses: azure/login@v1
-    #  with:
-    #      client-id: ${{ secrets.AZURE_CLIENT_ID }}
-    #      tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-    #      subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-    #- name: 'Run Azure CLI commands'
-    #  run: |
-    #      az account show
-    #      az group list
+  #   # NOTE This is an example of how to login to the Azure CLI, this step is not needed for Terraform
+  #   #- name: 'Az CLI login'
+  #   #  uses: azure/login@v1
+  #   #  with:
+  #   #      client-id: ${{ secrets.AZURE_CLIENT_ID }}
+  #   #      tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+  #   #      subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #   #- name: 'Run Azure CLI commands'
+  #   #  run: |
+  #   #      az account show
+  #   #      az group list
           
-    - name: HashiCorp - Setup Terraform
-      uses: hashicorp/setup-terraform@v2.0.3
+  #   - name: HashiCorp - Setup Terraform
+  #     uses: hashicorp/setup-terraform@v2.0.3
 
-    - name: Terraform Init
-      run: |
-        terraform init \
-        -backend-config="resource_group_name=${{secrets.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
-        -backend-config="storage_account_name=${{secrets.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
-        -backend-config="container_name=${{secrets.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}"
+  #   - name: Terraform Init
+  #     run: |
+  #       terraform init \
+  #       -backend-config="resource_group_name=${{secrets.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
+  #       -backend-config="storage_account_name=${{secrets.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
+  #       -backend-config="container_name=${{secrets.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}"
       
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -var "resource_group_name=${{secrets.AZURE_RESOURCE_GROUP_NAME}}"
+  #   - name: Terraform Apply
+  #     run: terraform apply -auto-approve -var "resource_group_name=${{secrets.AZURE_RESOURCE_GROUP_NAME}}"

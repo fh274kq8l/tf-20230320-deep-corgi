@@ -8,6 +8,10 @@ terraform {
       source = "hashicorp/azuread"
       version = "2.30.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~>3.0"
+    }    
   }
   backend "azurerm" {
     key = "terraform.tfstate"
