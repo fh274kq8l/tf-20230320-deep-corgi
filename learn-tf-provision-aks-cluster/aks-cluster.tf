@@ -3,12 +3,8 @@
 
 resource "random_pet" "prefix" {}
 
-data "azurerm_resource_group" "example" {
+data "azurerm_resource_group" "default" {
   name = var.resource_group_name
-
-    tags = {
-    environment = "Demo"
-  }
 }
 
 # resource "azurerm_resource_group" "default" {
