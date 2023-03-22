@@ -3,20 +3,22 @@
 
 resource "random_pet" "prefix" {}
 
-provider "azurerm" {
-  use_oidc                   = true
-  skip_provider_registration = true  
-  features {}
-}
+data "azurerm_resource_group" "example" {
+  name = var.resource_group_name
 
-resource "azurerm_resource_group" "default" {
-  name     = "${random_pet.prefix.id}-rg"
-  location = "West Europe"
-
-  tags = {
+    tags = {
     environment = "Demo"
   }
 }
+
+# resource "azurerm_resource_group" "default" {
+#   name     = "${random_pet.prefix.id}-rg"
+#   location = "West Europe"
+
+#   tags = {
+#     environment = "Demo"
+#   }
+# }
 
 resource "azurerm_kubernetes_cluster" "default" {
   name                = "${random_pet.prefix.id}-aks"
