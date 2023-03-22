@@ -23,6 +23,8 @@ provider "azurerm" {
   use_oidc = true
   skip_provider_registration = true
   features {}
+  subscription_id = data.azurerm_client_config.default.subscription_id
+  tenant_id       = data.azurerm_client_config.default.tenant_id  
 }
 
 provider "azuread" {
