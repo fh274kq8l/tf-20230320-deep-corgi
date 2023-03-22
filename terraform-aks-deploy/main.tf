@@ -31,7 +31,3 @@ provider "azuread" {
 }
 
 data "azurerm_client_config" "current" {}
-
-identity {
-  type = "SystemAssigned"
-}
