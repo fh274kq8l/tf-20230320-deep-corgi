@@ -39,9 +39,9 @@ resource "azurerm_kubernetes_cluster" "default" {
     type = "SystemAssigned"
   }
 
-  role_based_access_control {
-    enabled = true
-  }
+  # role_based_access_control {
+  #   enabled = true
+  # }
 
   tags = {
     environment = "Demo"
